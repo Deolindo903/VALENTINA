@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmação de Reserva</title>
 
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Georgia, serif;
+    background:linear-gradient(135deg,#f8f6f2,#ffffff);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    max-width:700px;
+    width:100%;
+    padding:50px;
+    border-radius:20px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.08);
+    text-align:center;
+}
+
+h1{
+    color:#222;
+    margin-bottom:25px;
+}
+
+p{
+    font-size:18px;
+    line-height:1.8;
+    color:#555;
+    margin-bottom:25px;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    margin:8px;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.primary{
+    background:#222;
+    color:white;
+}
+
+.option{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    background:#f2f2f2;
+}
+
+.hidden{
+    display:none;
+}
+
+.success{
+    color:green;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+#nao{
+    background:#ddd;
+    position:relative;
+}
+
+#opcaoD{
+    background:#ddd;
+    position:relative;
+}
+
+.final{
+    animation:fade .8s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.heart{
+    position:fixed;
+    font-size:20px;
+    animation:fall 4s linear infinite;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-100px);
+        opacity:1;
+    }
+    to{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card" id="content">
+
+<h1>Olá, senhorita Valentina Graff.</h1>
+
+<p>
+Entramos em contato para confirmar sua reserva para sábado à noite.
+<br><br>
+Podemos contar com sua presença?
+</p>
+
+<button class="primary" onclick="etapa2()">Sim</button>
+<button id="nao">Não</button>
+
+</div>
+
+<script>
+
+const btnNao = document.getElementById("nao");
+
+function fugir(botao){
+
+const largura = window.innerWidth - 150;
+const altura = window.innerHeight - 100;
+
+botao.style.position = "fixed";
+botao.style.left = Math.random()*largura + "px";
+botao.style.top = Math.random()*altura + "px";
+
+}
+
+btnNao.addEventListener("mouseover",()=>fugir(btnNao));
+btnNao.addEventListener("click",()=>fugir(btnNao));
+
+function etapa2(){
+
+document.getElementById("content").innerHTML = `
+
+<h1>Para concluir sua reserva, escolha uma opção:</h1>
+
+<button class="option" onclick="respostaEtapa2()">A) Jantar romântico</button>
+<button class="option" onclick="respostaEtapa2()">B) Noite agradável</button>
+<button class="option" onclick="respostaEtapa2()">C) Boa companhia</button>
+<button class="option" onclick="respostaEtapa2()">D) Todas as anteriores</button>
+
+<div id="msg"></div>
+
+`;
+
+}
+
+function respostaEtapa2(){
+
+document.getElementById("msg").innerHTML = `
+<p class="success">Resposta registrada com sucesso.</p>
+<br>
+<button class="primary" onclick="etapa3()">Continuar</button>
+`;
+
+}
+
+function etapa3(){
+
+document.getElementById("content").innerHTML = `
+
+<h1>Última etapa do processo de confirmação.</h1>
+
+<p>Em sua opinião, o Chef Pedro é:</p>
+
+<button class="option" onclick="finalizar()">A) Bonito</button>
+
+<button class="option" onclick="finalizar()">B) Gostoso</button>
+
+<button class="option" onclick="finalizar()">C) Muito bonito e muito gostoso</button>
+
+<button class="option" id="opcaoD">
+D) Nenhuma das alternativas
+</button>
+
+`;
+
+setTimeout(()=>{
+
+const d = document.getElementById("opcaoD");
+
+d.addEventListener("mouseover",()=>fugir(d));
+d.addEventListener("click",()=>fugir(d));
+
+},100);
+
+}
+
+function finalizar(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="final">
+
+<h1>Reserva confirmada.</h1>
+
+<p>
+Agradecemos por concluir o processo de reserva.
+<br><br>
+O Chef Pedro terá o prazer de buscá-la pessoalmente às 20h.
+</p>
+
+</div>
+
+`;
+
+for(let i=0;i<25;i++){
+
+const heart=document.createElement("div");
+
+heart.classList.add("heart");
+
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.animationDelay=Math.random()*3+"s";
+
+document.body.appendChild(heart);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
